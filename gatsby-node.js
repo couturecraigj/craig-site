@@ -11,7 +11,7 @@ exports.createPages = ({ graphql, actions }) => {
     return graphql(
       `
         query loadPagesQuery($limit: Int!) {
-          allMarkdownRemark(limit: $limit${dev?'':',draft:false'}) {
+          allMarkdownRemark(limit: $limit${dev?'':', filter: {frontmatter: {draft: {eq: false}}}'}) {
             edges {
               node {
                 frontmatter {

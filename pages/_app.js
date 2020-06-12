@@ -21,8 +21,6 @@ const mdComponents = {
   ),
   wrapper: ({ children, ...props }) => {
     if (children.map) console.log(children.map((child) => child.props.mdxType));
-    console.log(children);
-    console.log(props);
     return (
       <>
         <Head>

@@ -6,7 +6,6 @@ import Image from "../components/Image"
 import SEO from "../components/Seo"
 
 const IndexPage = ({data}) => {
-  console.log(data)
   return (
   <Layout>
     <SEO title={data.file.childMarkdownRemark.frontmatter.title} />
