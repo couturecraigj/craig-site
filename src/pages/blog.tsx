@@ -7,13 +7,21 @@ import SEO from "../components/Seo"
 const dev = process.env.NODE_ENV !== "production"
 
 const PostList = ({ posts }) => {
-  return posts.edges.map(({ node }) => (
-    <div key={node.childMarkdownRemark.frontmatter.slug}>
-      <Link to={`/${node.childMarkdownRemark.frontmatter.slug}`}>
-        {node.childMarkdownRemark.frontmatter.title}
-      </Link>
-    </div>
-  ))
+  return posts.edges
+    .filter(({ node }) => {
+      if (dev) return true
+      if (node.childMarkdownRemark.frontmatter.draft) return false
+      return true
+    })
+    .map(({ node }) => {
+      return (
+        <div key={node.childMarkdownRemark.frontmatter.slug}>
+          <Link to={`/${node.childMarkdownRemark.frontmatter.slug}`}>
+            {node.childMarkdownRemark.frontmatter.title}
+          </Link>
+        </div>
+      )
+    })
 }
 
 const Blog = () => {
@@ -31,29 +39,7 @@ const Blog = () => {
               frontmatter {
                 title
                 slug
-              }
-              html
-              timeToRead
-              excerpt
-            }
-          }
-        }
-      }
-      devPosts: allFile(
-        limit: 10
-        filter: {
-          sourceInstanceName: { eq: "posts" }
-          childMarkdownRemark: { frontmatter: { draft: { eq: false } } }
-        }
-        skip: 0
-      ) {
-        edges {
-          node {
-            name
-            childMarkdownRemark {
-              frontmatter {
-                title
-                slug
+                draft
               }
               html
               timeToRead
@@ -69,7 +55,7 @@ const Blog = () => {
     <Layout>
       <SEO title="Blog" />
       <h1>Hi from the blog page</h1>
-      <PostList posts={dev ? data.devPosts : data.posts} />
+      <PostList posts={data.posts} />
     </Layout>
   )
 }

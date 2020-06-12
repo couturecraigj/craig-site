@@ -1,5 +1,5 @@
 const path = require(`path`)
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== "production"
 exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const { createPage } = actions
@@ -11,26 +11,31 @@ exports.createPages = ({ graphql, actions }) => {
     return graphql(
       `
         query loadPagesQuery($limit: Int!) {
-          allMarkdownRemark(limit: $limit${dev?'':', filter: {frontmatter: {draft: {eq: false}}}'}) {
+          allMarkdownRemark(limit: $limit) {
             edges {
               node {
                 frontmatter {
                   slug
+                  draft
                 }
               }
             }
           }
         }
       `,
-      { limit: 1000,  }
+      { limit: 1000 }
     ).then(result => {
       result.data.allMarkdownRemark.edges.forEach(edge => {
+        if (!dev) {
+          if (edge.node.frontmatter.draft) return;
+        }
+
         createPage({
           // Path for this page — required
           path: `${edge.node.frontmatter.slug}`,
           component: blogPostTemplate,
           context: {
-            slug: edge.node.frontmatter.slug
+            slug: edge.node.frontmatter.slug,
             // Add optional context data to be inserted
             // as props into the page component..
             //
@@ -42,7 +47,7 @@ exports.createPages = ({ graphql, actions }) => {
           },
         })
       })
-      resolve();
+      resolve()
     })
   })
 }
