@@ -1,8 +1,10 @@
+
 module.exports = {
   siteMetadata: {
     title: `Craig Couture`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    author: `@couturecraigj`,
+    nodeEnv: process.env.GATSBY_ACTIVE_ENV
   },
   plugins: [
     {

@@ -1,5 +1,4 @@
 const path = require(`path`)
-const dev = process.env.NODE_ENV !== "production"
 exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const { createPage } = actions
@@ -21,13 +20,18 @@ exports.createPages = ({ graphql, actions }) => {
               }
             }
           }
+          site {
+            siteMetadata {
+              nodeEnv
+            }
+          }
         }
       `,
       { limit: 1000 }
     ).then(result => {
       result.data.allMarkdownRemark.edges.forEach(edge => {
-        if (!dev) {
-          if (edge.node.frontmatter.draft) return;
+        if (result.data.site.siteMetadata.nodeEnv !== "production") {
+          if (edge.node.frontmatter.draft) return
         }
 
         createPage({
