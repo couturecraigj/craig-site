@@ -19,7 +19,7 @@ const PostList = ({posts}) => {
 const Blog = () => {
   const data = useStaticQuery(graphql`
     query ProductionBlogQuery {
-      devPosts: allFile(
+      posts: allFile(
         limit: 10
         filter: { sourceInstanceName: { eq: "posts" } }
         skip: 0
@@ -39,7 +39,7 @@ const Blog = () => {
           }
         }
       }
-      posts: allFile(
+      devPosts: allFile(
         limit: 10
         filter: {
           sourceInstanceName: { eq: "posts" }
