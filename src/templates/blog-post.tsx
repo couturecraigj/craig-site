@@ -18,7 +18,7 @@ const IndexPage = ({ data }) => {
 export default IndexPage
 
 export const query = graphql`
-  query($slug: String!) {
+  query BlogPostTemplateQuery($slug: String!) {
     file(childMarkdownRemark: { frontmatter: { slug: { eq: $slug } } }) {
       childMarkdownRemark {
         frontmatter {

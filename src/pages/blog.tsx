@@ -6,7 +6,7 @@ import SEO from "../components/Seo"
 
 const dev = process.env.NODE_ENV !== "production"
 
-const PostList = ({posts}) => {
+const PostList = ({ posts }) => {
   return posts.edges.map(({ node }) => (
     <div key={node.childMarkdownRemark.frontmatter.slug}>
       <Link to={`/${node.childMarkdownRemark.frontmatter.slug}`}>
@@ -69,7 +69,7 @@ const Blog = () => {
     <Layout>
       <SEO title="Blog" />
       <h1>Hi from the blog page</h1>
-      <PostList posts={(dev ? data.devPosts : data.posts)} />
+      <PostList posts={dev ? data.devPosts : data.posts} />
     </Layout>
   )
 }
